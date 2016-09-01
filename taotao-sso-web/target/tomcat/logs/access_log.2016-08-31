@@ -1,0 +1,17 @@
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:36:46 +0800] "GET /user/token/%22%22?callback=jQuery106362&_=1472657795194 HTTP/1.1" 200 91 http-bio-8088-exec-1 436
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:24 +0800] "GET /user/showLogin HTTP/1.1" 200 4027 http-bio-8088-exec-4 1451
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /user/showRegister HTTP/1.1" 200 7682 http-bio-8088-exec-5 349
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /css/regist.personal.css HTTP/1.1" 304 - http-bio-8088-exec-6 45
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /images/phone-bg.jpg HTTP/1.1" 304 - http-bio-8088-exec-8 41
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /css/passport.base.css HTTP/1.1" 304 - http-bio-8088-exec-7 46
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /images/one6.jpg HTTP/1.1" 304 - http-bio-8088-exec-9 17
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /images/one4.jpg HTTP/1.1" 304 - http-bio-8088-exec-7 22
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /images/one5.jpg HTTP/1.1" 304 - http-bio-8088-exec-10 61
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:27 +0800] "GET /images/regist-btn.jpg HTTP/1.1" 304 - http-bio-8088-exec-2 61
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:37:51 +0800] "GET /user/check/Mrlijing/1?r=0.8989058854839713 HTTP/1.1" 200 49 http-bio-8088-exec-6 17
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:23 +0800] "GET /user/check/Mrlijing2/1?r=0.27630883041881527 HTTP/1.1" 200 48 http-bio-8088-exec-6 12
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:23 +0800] "GET /user/check/11111/2?r=0.06584284717354971 HTTP/1.1" 200 48 http-bio-8088-exec-6 7
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:23 +0800] "POST /user/register HTTP/1.1" 200 48 http-bio-8088-exec-6 66
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:25 +0800] "GET /user/showLogin HTTP/1.1" 200 4027 http-bio-8088-exec-6 9
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:32 +0800] "POST /user/login HTTP/1.1" 200 82 http-bio-8088-exec-6 14
+0:0:0:0:0:0:0:1 - - [31/Aug/2016:23:38:35 +0800] "GET /user/token/de22bd72-b9f0-4003-9cf0-51aead42430f?callback=jQuery361997&_=1472657915003 HTTP/1.1" 200 177 http-bio-8088-exec-6 21

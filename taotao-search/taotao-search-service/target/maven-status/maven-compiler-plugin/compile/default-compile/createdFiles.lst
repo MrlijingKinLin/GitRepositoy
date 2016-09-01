@@ -1,0 +1,5 @@
+com\taotao\search\dao\SearchItemMapper.class
+com\taotao\search\service\impl\SearchItemAddIndexServiceImpl.class
+com\taotao\search\service\impl\SearchItemServiceImpl.class
+com\taotao\search\listener\ActiveMQListener.class
+com\taotao\search\dao\SearchItemDaoImpl.class

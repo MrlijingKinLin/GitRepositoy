@@ -1,0 +1,91 @@
+package com.taotao.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.taotao.common.pojo.EasyUIPageResult;
+import com.taotao.dao.TbItemDescMapper;
+import com.taotao.dao.TbItemMapper;
+import com.taotao.dao.TbItemParamItemMapper;
+import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
+import com.taotao.pojo.TbItemExample;
+import com.taotao.pojo.TbItemParam;
+import com.taotao.pojo.TbItemParamItem;
+import com.taotao.pojo.TbItemParamItemExample;
+import com.taotao.pojo.TbItemParamItemExample.Criteria;
+import com.taotao.service.ItermService;
+
+@Service
+public class ItermServiceImpl implements ItermService {
+	@Autowired
+	private TbItemMapper tbItemMapper;
+	@Autowired
+	private TbItemDescMapper tbItemDescMapper;
+	@Autowired
+	private TbItemParamItemMapper tbItemParamItemMapper;
+	/**
+	 * 通过id查找商品
+	 */
+	@Override
+	public TbItem findTBItemById(Long id) {
+		// TODO Auto-generated method stub
+		TbItem item = tbItemMapper.selectByPrimaryKey(id);
+		return item;
+	}
+
+	@Override
+	public List<TbItem> findTbItemByExample() {
+		// TODO Auto-generated method stub
+		TbItemExample example = new TbItemExample();
+		List<TbItem> list = tbItemMapper.selectByExample(example);
+		return list;
+	}
+
+	/**
+	 * 分页查询
+	 */
+	@Override
+	public EasyUIPageResult getEasyUIResult(int page, int rows) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page, rows);
+		// 要被分页的数据
+		TbItemExample example = new TbItemExample();
+		List<TbItem> list = tbItemMapper.selectByExample(example);
+		PageInfo<TbItem> info = new PageInfo<>(list);
+		// 获取分页信息
+		EasyUIPageResult result = new EasyUIPageResult();
+		// 设置分页
+		result.setTotal((int) info.getTotal());
+		result.setRows(list);
+		return result;
+	}
+
+	@Override
+	public TbItem fingItemById(Long id) {
+		// TODO Auto-generated method stub
+		return tbItemMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public TbItemDesc findTBItemDescById(Long id) {
+		// TODO Auto-generated method stub
+		TbItemDesc desc = tbItemDescMapper.selectByPrimaryKey(id);
+		return desc;
+	}
+
+	@Override
+	public TbItemParamItem findTbItemParamByItemId(Long id) {
+		// TODO Auto-generated method stub
+		TbItemParamItemExample example = new TbItemParamItemExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andItemIdEqualTo(id);
+		List<TbItemParamItem> list = tbItemParamItemMapper.selectByExample(example);
+		return list.get(0);
+	}
+
+}

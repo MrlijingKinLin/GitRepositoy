@@ -1,0 +1,30 @@
+package com.taotao.service;
+
+import java.util.List;
+
+import com.taotao.common.pojo.EasyUIPageResult;
+import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
+import com.taotao.pojo.TbItemParam;
+import com.taotao.pojo.TbItemParamItem;
+
+public interface ItermService {
+	/**
+	 * 通过id查询商品
+	 */
+	abstract public TbItem findTBItemById(Long id);
+	/**
+	 * 查询所有商品
+	 */
+	abstract public List<TbItem> findTbItemByExample();
+	/**
+	 * 查询分页信息
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public abstract EasyUIPageResult getEasyUIResult(int page, int rows);
+	public abstract TbItem fingItemById(Long id);
+	public abstract TbItemDesc findTBItemDescById(Long id);
+	public abstract TbItemParamItem findTbItemParamByItemId(Long id);
+}

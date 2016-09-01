@@ -1,0 +1,55 @@
+package com.taotao.search.service.impl;
+
+import java.util.List;
+
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.common.SolrInputDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.taotao.common.pojo.SearchResult;
+import com.taotao.common.utils.TaotaoResult;
+import com.taotao.search.dao.SearchItemMapper;
+import com.taotao.search.service.SearchItemAddIndexService;
+
+@Service
+public class SearchItemAddIndexServiceImpl implements SearchItemAddIndexService {
+	@Autowired
+	private SolrServer solrServer;
+	@Autowired
+	private SearchItemMapper searchItemMapper;
+
+	@Override
+	public TaotaoResult addSearchIndex() throws Exception{
+		// 查询建立索引库所需要的数据
+		List<SearchResult> itermList = searchItemMapper.addSearchIndex();
+		
+		for(SearchResult result:itermList) {
+			//创建文档
+			SolrInputDocument solrDocument = new SolrInputDocument();
+			//向文档中添加域对象,注意域对象必须先声明才能使用
+			solrDocument.addField("id", result.getId());
+			solrDocument.addField("item_title", result.getTitle());
+			solrDocument.addField("item_sell_point",result.getSellPoint());
+			solrDocument.addField("item_price",result.getPrice());
+			solrDocument.addField("item_image",result.getImage());
+			solrDocument.addField("item_category_name",result.getCatgory());
+			solrDocument.addField("item_desc",result.getItemDesc());
+			//将文档对象添加到solrserver
+			solrServer.add(solrDocument);
+		}
+		//提交
+		solrServer.commit();
+		return TaotaoResult.ok();
+	}
+	
+
+	@Override
+	public SearchResult addSearchIndexByItemId(Long itemId) {
+		// TODO Auto-generated method stub
+		SearchResult  result= searchItemMapper.addSearchIndexByItemId(itemId);
+		return result;
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.taotao.search.service;
+
+import com.taotao.common.utils.TaotaoResult;
+
+public interface SearchItemAddIndexService {
+	/**
+	 * 使用solrj 向索引库中添加商品索引
+	 * @see需要显示的pojo对象
+	 * @return
+	 * @throws Exception 
+	 */
+	public abstract TaotaoResult addSearchIndex() throws Exception;
+}

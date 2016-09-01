@@ -1,0 +1,5 @@
+com\taotao\redis\JedisClient.class
+com\taotao\cart\controller\CartController.class
+com\taotao\redis\JedisClientPool.class
+com\taotao\redis\JedisClientCluster.class
+com\taotao\cart\pojo\Iterm.class

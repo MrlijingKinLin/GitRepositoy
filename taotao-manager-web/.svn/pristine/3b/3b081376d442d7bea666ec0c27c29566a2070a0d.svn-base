@@ -1,0 +1,56 @@
+package com.taotao.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+/**
+ * 商品Controller层
+ * @author Mrlijing
+ *
+ */
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.taotao.service.ItermService;
+
+import page.EasyUIPageResult;
+@Controller
+public class ItermController {
+	/**
+	 * 需要用到ItemsService没有加入对interface的依赖
+	 */
+	@Autowired
+	private ItermService itermService;
+	/**
+	 * 查询所有商品(7800个商品这里需要使用分页插件)
+	 */
+	@RequestMapping("/index")
+	public String getIndexPage(){
+		return "index";
+	}
+	/**
+	 * 根据页面请求返回对应的页面
+	 */
+	@RequestMapping("/item/{page}")
+	public String getPages(@PathVariable String page){
+		return page;
+	}
+	
+	/**
+	 * 根据页面的分页信息返回分页数据
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping("/item/list")
+	@ResponseBody
+	public EasyUIPageResult getEasyUIPageResult(int page,int rows){
+		//所有业务逻辑都应该放到service层来实现
+		/*itermService.getEasyUIPageResult(page,rows);*/
+		//设置分页信息
+		EasyUIPageResult result = itermService.getEasyUIResult(page,rows);
+		
+		return result;
+	}
+	
+}

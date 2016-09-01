@@ -1,0 +1,94 @@
+package com.taotao.search.service.impl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sun.tools.javac.jvm.Items;
+import com.taotao.common.pojo.QuerySolrResult;
+import com.taotao.common.pojo.SearchResult;
+import com.taotao.common.utils.TaotaoResult;
+import com.taotao.search.dao.SearchItemDaoImpl;
+import com.taotao.search.dao.SearchItemMapper;
+import com.taotao.search.service.SearchItemService;
+
+@Service
+public class SearchItemServiceImpl implements SearchItemService {
+	@Autowired
+	SolrServer solrServer;
+	@Autowired
+	SearchItemMapper searchItemMapper;
+	@Autowired
+	SearchItemDaoImpl searchItemServiceImpl;
+	@Autowired
+	SearchItemDaoImpl searchItemDaoImpl;
+
+	@Override
+	public QuerySolrResult querySolrResult(String queryString, Integer page, Integer rows) throws Exception {
+		// 获得查询对象solrQuery
+		SolrQuery solrQuery = new SolrQuery();
+		// 添加查询条件 q
+		solrQuery.setQuery(queryString);
+		// 过滤信息 FilterQuery
+
+		// 分页信息SortField
+		if (page == null)
+			page = 1;
+		// 起始页 当前页-1 * 每页条数
+		Integer start = (page - 1) * rows;
+		solrQuery.setStart(start);
+		solrQuery.setRows(rows);
+		// 排序
+		/* solrQuery.setSort(field, order) */
+		// 显示过滤 FieldList 这里不过滤
+
+		// 默认搜索域DefaultField
+		solrQuery.set("df", "item_keywords");
+		// 高亮显示
+		solrQuery.setHighlight(true);
+		solrQuery.addHighlightField("item_title");
+		solrQuery.setHighlightSimplePre("<font class=\"skcolor_ljg\">");
+		solrQuery.setHighlightSimplePost("</font>");
+		QuerySolrResult querySolrResult = searchItemServiceImpl.querySolrResult(solrQuery);
+		// 补全querySolrResult信息(总记录数在dao层获得)
+		Long totalRecord = querySolrResult.getTotalRecord();
+		Long totalPage = totalRecord % rows == 0 ? totalRecord / rows : totalRecord / rows + 1;
+		querySolrResult.setTotalPage(totalPage);
+		return querySolrResult;
+	}
+
+	/**
+	 * 通过id更新索引库
+	 * @throws Exception 
+	 * @throws SolrServerException 
+	 */
+
+	@Override
+	public TaotaoResult addItemById(Long id) throws SolrServerException, Exception {
+		// 根据id查询商品信息添加到索引库
+		SearchResult result = searchItemMapper.addSearchIndexByItemId(id);
+
+		// 创建文档对象
+		SolrInputDocument solrInputDocument = new SolrInputDocument();
+		// 文档域中添加信息
+		solrInputDocument.addField("id", result.getId());
+		solrInputDocument.addField("item_title", result.getTitle());
+		solrInputDocument.addField("item_sell_point", result.getSellPoint());
+		solrInputDocument.addField("item_price", result.getPrice());
+		solrInputDocument.addField("item_image", result.getImage());
+		solrInputDocument.addField("item_category_name", result.getCatgory());
+		solrInputDocument.addField("item_image", result.getImage());
+		solrServer.add(solrInputDocument);
+		solrServer.commit();
+		return TaotaoResult.ok();
+	}
+
+}

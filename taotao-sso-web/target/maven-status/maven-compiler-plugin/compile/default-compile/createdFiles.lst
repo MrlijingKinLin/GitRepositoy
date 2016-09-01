@@ -1,0 +1,6 @@
+com\taotao\sso\controller\UserController.class
+com\taotao\sso\controller\PageController.class
+com\taotao\sso\redis\JedisClientCluster.class
+com\taotao\sso\listener\SsoListener.class
+com\taotao\sso\redis\JedisClientPool.class
+com\taotao\sso\redis\JedisClient.class

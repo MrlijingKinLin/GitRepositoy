@@ -1,0 +1,90 @@
+package com.taotao.content.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.taotao.common.pojo.EasyUIPageResult;
+import com.taotao.common.utils.TaotaoResult;
+import com.taotao.content.service.TbContentService;
+import com.taotao.dao.TbContentMapper;
+import com.taotao.pojo.TbContent;
+import com.taotao.pojo.TbContentExample;
+import com.taotao.pojo.TbContentExample.Criteria;
+
+@Service
+public class TbContentServiceImpl implements TbContentService {
+	@Autowired
+	TbContentMapper tbContentMapper;
+
+	@Override
+	public List<TbContent> queryContentList(Long categoryId) {
+		// 查询内容列表
+		TbContentExample example = new TbContentExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryIdEqualTo(categoryId);
+		List<TbContent> list = tbContentMapper.selectByExampleWithBLOBs(example);
+		return list;
+	}
+
+	@Override
+	public TaotaoResult addContent(TbContent content) {
+		// 添加内容列表
+		/**
+		@TODO 补全商品信息
+		@param 补全商品信息
+		 */
+		content.setCreated(new Date());
+		content.setUpdated(new Date());
+		
+		tbContentMapper.insert(content);
+		return TaotaoResult.ok();
+	}
+
+	@Override
+	public TaotaoResult editContext(TbContent content) {
+		// 编辑商品内容列表
+		tbContentMapper.updateByPrimaryKey(content);
+		return TaotaoResult.ok();
+	}
+
+	@Override
+	public TaotaoResult deleteContextByIds(List<String> ids) {
+		// 批量删除
+		for (String id : ids) {
+			tbContentMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		return TaotaoResult.ok();
+	}
+
+	@Override
+	public List<TbContent> getListByCatgoryId(Long cid) {
+		// TODO 查询商品信息用于广告位展示\
+		TbContentExample example = new TbContentExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryIdEqualTo(cid);
+		List<TbContent> list = tbContentMapper.selectByExampleWithBLOBs(example);
+		return list;
+	}
+
+	@Override
+	public EasyUIPageResult getEasyUiResult(Long categoryId, Integer page, Integer rows) {
+		// TODO Auto-generated method stub
+		EasyUIPageResult result = new EasyUIPageResult();
+		PageHelper helper = new PageHelper();
+		//设置分页参数
+		helper.startPage(page, rows);
+		//构建需要分页的数据
+		List<TbContent> list = queryContentList(categoryId);
+		//获得分页内容
+		PageInfo<TbContent> info = new PageInfo<>(list);
+		result.setRows(list);
+		result.setTotal((int)info.getTotal());
+		return result;
+	}
+
+}

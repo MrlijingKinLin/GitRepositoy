@@ -1,0 +1,60 @@
+package com.taotao.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.taotao.dao.TbItemMapper;
+import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemExample;
+import com.taotao.service.ItermService;
+
+import page.EasyUIPageResult;
+
+@Service
+public class ItermServiceImpl implements ItermService {
+	@Autowired
+	private TbItemMapper tbItemMapper;
+	
+	/**
+	 * 通过id查找商品
+	 */
+	@Override
+	public TbItem findTBItemById(Long id) {
+		// TODO Auto-generated method stub
+		TbItem item = tbItemMapper.selectByPrimaryKey(id);
+		return item;
+	}
+
+
+	@Override
+	public List<TbItem> findTbItemByExample() {
+		// TODO Auto-generated method stub
+		TbItemExample example = new TbItemExample();
+ 		List<TbItem> list = tbItemMapper.selectByExample(example);
+		return list;
+	}
+
+	/**
+	 * 分页查询
+	 */
+	@Override
+	public EasyUIPageResult getEasyUIResult(int page, int rows) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page, rows);
+		//要被分页的数据
+		TbItemExample example = new TbItemExample();
+		List<TbItem> list = tbItemMapper.selectByExample(example);
+		PageInfo<TbItem> info = new PageInfo<>(list);
+		//获取分页信息
+		EasyUIPageResult result = new EasyUIPageResult();
+		//设置分页
+		result.setTotal((int)info.getTotal());
+		result.setRows(list);
+		return result;
+	}
+
+}
